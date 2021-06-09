@@ -1,5 +1,6 @@
 {% extends "base.html" %}{% block content %}
 <a class="backlink" href="/">Home</a>
+{% if user.is_authenticated %}
 <h1>Add a New Post</h1>
 <body>
     <form method="post" >
@@ -8,4 +9,7 @@
     <button type="submit" class="btn btn-primary">Add Post</button>
     </form>
 </body>
+{% else %}
+    <p>Welcome, anonymous user. Please <a href = "/login">log in</a> or <a href = "/register">sign up</a> to post.</p>
+{% endif %}
 {% endblock %}

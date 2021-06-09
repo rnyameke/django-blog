@@ -1,12 +1,11 @@
 from datetime import datetime, timezone
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.template import loader
-from blogging.models import Post
-from blogging.forms import PostForm
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+
+from blogging.models import Post
+from blogging.forms import PostForm
 
 
 class BlogListView(ListView):
