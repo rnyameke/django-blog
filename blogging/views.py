@@ -1,9 +1,12 @@
+from datetime import datetime, timezone
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from blogging.models import Post
+from blogging.forms import PostForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
 
 
 class BlogListView(ListView):
@@ -18,3 +21,17 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = "blogging/detail.html"
     queryset = Post.objects.exclude(published_date__exact=None)
+
+
+class BlogAddPostView(FormView):
+    model = Post
+    template_name = "blogging/add.html"
+    form_class = PostForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.published_date = datetime.now(timezone.utc)
+        self.object.save()
+        return super().form_valid(form)
